@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sports-trivia/static/css/main.b84628cc.css",
-    "main.js": "/sports-trivia/static/js/main.a7d94ba9.js",
+    "main.js": "/sports-trivia/static/js/main.ee0eeb33.js",
     "static/js/787.dddbe7b4.chunk.js": "/sports-trivia/static/js/787.dddbe7b4.chunk.js",
     "index.html": "/sports-trivia/index.html",
     "main.b84628cc.css.map": "/sports-trivia/static/css/main.b84628cc.css.map",
-    "main.a7d94ba9.js.map": "/sports-trivia/static/js/main.a7d94ba9.js.map",
+    "main.ee0eeb33.js.map": "/sports-trivia/static/js/main.ee0eeb33.js.map",
     "787.dddbe7b4.chunk.js.map": "/sports-trivia/static/js/787.dddbe7b4.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b84628cc.css",
-    "static/js/main.a7d94ba9.js"
+    "static/js/main.ee0eeb33.js"
   ]
 }
