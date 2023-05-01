@@ -14,11 +14,13 @@ function Trivia() {
     "Right on!",
     "Nothing but net!",
     "Gold blooded.",
+    "Bet",
     "You're unstoppable.",
     "Swish!",
     "Out of the Park!",
     "Look at you!",
-    "On your puter!"
+    "On your puter!",
+    "You're on fire!",
   ]);
   const [incorrectMessages, setIncorrectMessages] = useState([
     "Not quite.",
@@ -27,7 +29,8 @@ function Trivia() {
     "Keep trying.",
     "!@#$%^&*",
     "Almost!",
-    "Oof.",
+    "Negative.",
+    "That was a hard one.",
   ]);
   const [score, setScore] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
