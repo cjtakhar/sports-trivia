@@ -27,13 +27,17 @@ const Trivia = () => {
     "!@#$%^&*",
     "Almost!",
     "Oof.",
-  ])
+  ]);
+  const [score, setScore] = useState(0);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     axios
       .get("https://opentdb.com/api.php?amount=10&category=21")
       .then((res) => {
         setTrivia(res.data.results);
+        setTotalQuestions(res.data.results.length);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -48,6 +52,7 @@ const Trivia = () => {
         correctMessages[Math.floor(Math.random() * correctMessages.length)];
       const messageWithCorrectAnswer = `${randomMessage} The correct answer is ${currentQuestion.correct_answer}`;
       setAnswer(messageWithCorrectAnswer);
+      setScore(score + 1);
     } else {
       setIsCorrectAnswer(false);
       setCheckedAnswer(false);
@@ -56,7 +61,7 @@ const Trivia = () => {
       const messageWithCorrectAnswer = `${randomMessage} The correct answer is ${currentQuestion.correct_answer}`;
       setAnswer(messageWithCorrectAnswer);
     }
-  };  
+  };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < trivia.length - 1) {
@@ -65,9 +70,27 @@ const Trivia = () => {
       setCheckedAnswer(false);
       setIsCorrectAnswer(false);
     } else {
-      alert("Trivia completed!");
+      setGameOver(true);
     }
   };
+
+  const handleRetry = () => {
+    window.location.reload();
+  };
+
+  if (gameOver) {
+    return (
+      <div className="main-container">
+        <div className="trivia-container">
+          <h1 className="score">Your score is: {score}/{totalQuestions}</h1>
+          <button className="btn-retry" onClick={handleRetry}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="main-container">
@@ -82,7 +105,7 @@ const Trivia = () => {
               className="question"
               dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
             ></h2>
-
+  
             {currentQuestion.incorrect_answers.map((answer, index) => (
               <button
                 key={index}
@@ -120,14 +143,25 @@ const Trivia = () => {
             )}
             {answer !== "" && (
               <button className="btn-next" onClick={handleNextQuestion}>
-                Next Question
+                {currentQuestionIndex === trivia.length - 1 ? "See Score" : "Next Question"}
               </button>
             )}
           </div>
         )}
+        {currentQuestionIndex === trivia.length && (
+          <div>
+          <div className="score-container">
+            <p className="score-text">Your Score:</p>
+            <p className="score-number">{score}/{totalQuestions}</p>
+          </div>
+          <button className="btn-retry" onClick={() => window.location.reload()}>
+  Retry
+</button>
+          </div>
+        )}
       </div>
     </div>
-  );
-};
+  );  
+}
 
 export default Trivia;

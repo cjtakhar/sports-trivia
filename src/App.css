@@ -69,21 +69,8 @@
   animation-iteration-count: 1;
 }
 
-@keyframes flash {
-  0% {
-    background-color: purple;
-  }
-  50% {
-    background-color: white;
-  }
-  100% {
-    background-color: purple;
-  }
-}
-
-
 .btn-next {
-  border: solid 2px black;
+  border: solid 1px black;
   border-radius: 25px;
   padding: 1rem;
   margin: 1rem auto 0;
@@ -94,6 +81,40 @@
   background-color: purple;
   color: white;
 }
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-text {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.score-number {
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.btn-retry {
+  border: solid 1px black;
+  border-radius: 25px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: purple;
+  color: white;
+  margin-top: 1rem;
+  display: block !important;
+  width: 100px;
+  text-align: center;
+  margin-left: 25px;
+}
+
 
 @media only screen and (max-width: 768px) {
   .trivia-container {
@@ -119,6 +140,18 @@
   .btn-next {
     font-size: 0.8rem;
     padding: 0.5rem;
+  }
+}
+
+@keyframes flash {
+  0% {
+    background-color: purple;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: purple;
   }
 }
 
