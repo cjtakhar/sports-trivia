@@ -6,6 +6,28 @@ const Trivia = () => {
   const [answer, setAnswer] = useState("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [checkedAnswer, setCheckedAnswer] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [correctMessages, setCorrectMessages] = useState([
+    "Way to go!",
+    "That's the stuff.",
+    "Right on!",
+    "Nothing but net!",
+    "Gold blooded.",
+    "You're unstoppable.",
+    "Swish!",
+    "Out of the Park!",
+    "Look at you!",
+    "On your puter!"
+  ]);
+  const [incorrectMessages, setIncorrectMessages] = useState([
+    "Not quite.",
+    "Nope.",
+    "Close!",
+    "Keep trying.",
+    "!@#$%^&*",
+    "Almost!",
+    "Oof.",
+  ])
 
   useEffect(() => {
     axios
@@ -20,18 +42,28 @@ const Trivia = () => {
 
   const handleAnswer = (selectedAnswer) => {
     if (selectedAnswer === currentQuestion.correct_answer) {
+      setIsCorrectAnswer(true);
       setCheckedAnswer(true);
+      const randomMessage =
+        correctMessages[Math.floor(Math.random() * correctMessages.length)];
+      const messageWithCorrectAnswer = `${randomMessage} The correct answer is ${currentQuestion.correct_answer}`;
+      setAnswer(messageWithCorrectAnswer);
     } else {
+      setIsCorrectAnswer(false);
       setCheckedAnswer(false);
+      const randomMessage =
+        incorrectMessages[Math.floor(Math.random() * incorrectMessages.length)];
+      const messageWithCorrectAnswer = `${randomMessage} The correct answer is ${currentQuestion.correct_answer}`;
+      setAnswer(messageWithCorrectAnswer);
     }
-    setAnswer(selectedAnswer);
-  };
+  };  
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < trivia.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setAnswer("");
       setCheckedAnswer(false);
+      setIsCorrectAnswer(false);
     } else {
       alert("Trivia completed!");
     }
@@ -39,10 +71,17 @@ const Trivia = () => {
 
   return (
     <div className="main-container">
-      <div className="trivia-container">
+      <div
+        className={`trivia-container ${
+          isCorrectAnswer ? "correct-answer" : ""
+        }`}
+      >
         {trivia.length > 0 && (
-          <div>
-            <h2 dangerouslySetInnerHTML={{ __html: currentQuestion.question }}></h2>
+          <div className="question-container">
+            <h2
+              className="question"
+              dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
+            ></h2>
 
             {currentQuestion.incorrect_answers.map((answer, index) => (
               <button
@@ -50,7 +89,15 @@ const Trivia = () => {
                 onClick={() => {
                   handleAnswer(answer);
                 }}
-                className={`btn-question ${answer ? "selected" : ""}`}
+                className={`btn-question ${answer ? "selected" : ""} ${
+                  checkedAnswer && answer === currentQuestion.correct_answer
+                    ? "btn-correct"
+                    : ""
+                } ${
+                  checkedAnswer && answer !== currentQuestion.correct_answer
+                    ? "btn-wrong"
+                    : ""
+                }`}
                 disabled={checkedAnswer}
               >
                 {answer}
@@ -67,13 +114,9 @@ const Trivia = () => {
             >
               {currentQuestion.correct_answer}
             </button>
-            {checkedAnswer && (
-              <p className="answer">Correct! The answer is {currentQuestion.correct_answer}</p>
-            )}
+            {checkedAnswer && <p className="answer">{answer}</p>}
             {!checkedAnswer && answer !== "" && (
-              <p className="answer">
-                {currentQuestion.correct_answer}
-              </p>
+              <p className="answer">{answer}</p>
             )}
             {answer !== "" && (
               <button className="btn-next" onClick={handleNextQuestion}>
@@ -88,8 +131,3 @@ const Trivia = () => {
 };
 
 export default Trivia;
-
-
-
-
-

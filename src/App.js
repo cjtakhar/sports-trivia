@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard';
-import Dubs from './components/dubs';
 import './App.css';
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/dubs" element={<Dubs />} />
         </Routes>
       </BrowserRouter>
     </div>
