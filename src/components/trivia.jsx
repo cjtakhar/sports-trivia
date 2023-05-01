@@ -98,6 +98,7 @@ function Trivia() {
         <div className={`trivia-container ${isCorrectAnswer ? "correct-answer" : ""}`}>
           {trivia.length > 0 && (
             <div className="question-container">
+              <div className="question-number">Sports Trivia {currentQuestionIndex + 1} of {totalQuestions}</div>
               <h2 className="question" dangerouslySetInnerHTML={{ __html: currentQuestion.question }} />
               {currentQuestion.incorrect_answers.map((answer, index) => (
                 <button
