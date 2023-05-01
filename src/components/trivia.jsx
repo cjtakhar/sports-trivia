@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Trivia = () => {
+function Trivia() {
   const [trivia, setTrivia] = useState([]);
   const [answer, setAnswer] = useState("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -33,13 +34,18 @@ const Trivia = () => {
   const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://opentdb.com/api.php?amount=10&category=21")
-      .then((res) => {
-        setTrivia(res.data.results);
-        setTotalQuestions(res.data.results.length);
-      })
-      .catch((err) => console.log(err));
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://opentdb.com/api.php?amount=10&category=21"
+        );
+        setTrivia(response.data.results);
+        setTotalQuestions(response.data.results.length);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }, []);
 
   const currentQuestion = trivia[currentQuestionIndex];
@@ -52,7 +58,7 @@ const Trivia = () => {
         correctMessages[Math.floor(Math.random() * correctMessages.length)];
       const messageWithCorrectAnswer = `${randomMessage} The correct answer is ${currentQuestion.correct_answer}`;
       setAnswer(messageWithCorrectAnswer);
-      setScore(score + 1);
+      setScore((prevScore) => prevScore + 1);
     } else {
       setIsCorrectAnswer(false);
       setCheckedAnswer(false);
@@ -65,7 +71,7 @@ const Trivia = () => {
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < trivia.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
       setAnswer("");
       setCheckedAnswer(false);
       setIsCorrectAnswer(false);
@@ -78,90 +84,57 @@ const Trivia = () => {
     window.location.reload();
   };
 
-  if (gameOver) {
-    return (
-      <div className="main-container">
-        <div className="trivia-container">
-          <h1 className="score">Your score is: {score}/{totalQuestions}</h1>
+  return (
+    <div className="main-container">
+      {gameOver ? (
+        <div className="score-container">
+          <p className="score-text">Your Score:</p>
+          <p className="score-number">{score}/{totalQuestions}</p>
           <button className="btn-retry" onClick={handleRetry}>
             Retry
           </button>
         </div>
-      </div>
-    );
-  }
-
-
-  return (
-    <div className="main-container">
-      <div
-        className={`trivia-container ${
-          isCorrectAnswer ? "correct-answer" : ""
-        }`}
-      >
-        {trivia.length > 0 && (
-          <div className="question-container">
-            <h2
-              className="question"
-              dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
-            ></h2>
-  
-            {currentQuestion.incorrect_answers.map((answer, index) => (
+      ) : (
+        <div className={`trivia-container ${isCorrectAnswer ? "correct-answer" : ""}`}>
+          {trivia.length > 0 && (
+            <div className="question-container">
+              <h2 className="question" dangerouslySetInnerHTML={{ __html: currentQuestion.question }} />
+              {currentQuestion.incorrect_answers.map((answer, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(answer)}
+                  className={`btn-question ${answer ? "selected" : ""} ${
+                    checkedAnswer && answer === currentQuestion.correct_answer ? "btn-correct" : ""
+                  } ${
+                    checkedAnswer && answer !== currentQuestion.correct_answer ? "btn-wrong" : ""
+                  }`}
+                  disabled={checkedAnswer}
+                >
+                  {answer}
+                </button>
+              ))}
               <button
-                key={index}
-                onClick={() => {
-                  handleAnswer(answer);
-                }}
-                className={`btn-question ${answer ? "selected" : ""} ${
-                  checkedAnswer && answer === currentQuestion.correct_answer
-                    ? "btn-correct"
-                    : ""
-                } ${
-                  checkedAnswer && answer !== currentQuestion.correct_answer
-                    ? "btn-wrong"
-                    : ""
-                }`}
+                onClick={() => handleAnswer(currentQuestion.correct_answer)}
+                className={`btn-question ${currentQuestion.correct_answer === answer ? "selected" : ""}`}
                 disabled={checkedAnswer}
               >
-                {answer}
+                {currentQuestion.correct_answer}
               </button>
-            ))}
-            <button
-              onClick={() => {
-                handleAnswer(currentQuestion.correct_answer);
-              }}
-              className={`btn-question ${
-                currentQuestion.correct_answer === answer ? "selected" : ""
-              }`}
-              disabled={checkedAnswer}
-            >
-              {currentQuestion.correct_answer}
-            </button>
-            {checkedAnswer && <p className="answer">{answer}</p>}
-            {!checkedAnswer && answer !== "" && (
-              <p className="answer">{answer}</p>
-            )}
-            {answer !== "" && (
-              <button className="btn-next" onClick={handleNextQuestion}>
-                {currentQuestionIndex === trivia.length - 1 ? "See Score" : "Next Question"}
-              </button>
-            )}
-          </div>
-        )}
-        {currentQuestionIndex === trivia.length && (
-          <div>
-          <div className="score-container">
-            <p className="score-text">Your Score:</p>
-            <p className="score-number">{score}/{totalQuestions}</p>
-          </div>
-          <button className="btn-retry" onClick={() => window.location.reload()}>
-  Retry
-</button>
-          </div>
-        )}
-      </div>
+              {checkedAnswer && <p className="answer">{answer}</p>}
+              {!checkedAnswer && answer !== "" && <p className="answer">{answer}</p>}
+              {answer !== "" && (
+                <button className="btn-next" onClick={handleNextQuestion}>
+                  {currentQuestionIndex === trivia.length - 1 ? "See Score" : "Next Question"}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
-  );  
-}
+  );
+  
+  
+};
 
 export default Trivia;
