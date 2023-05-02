@@ -16,7 +16,7 @@ const Trivia = () => {
     "Right on!",
     "Nothing but net!",
     "Gold blooded.",
-    "Bet",
+    "Bet.",
     "You're unstoppable.",
     "Swish!",
     "Out of the Park!",
