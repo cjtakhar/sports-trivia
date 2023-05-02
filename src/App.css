@@ -79,6 +79,13 @@
   animation-iteration-count: 1;
 }
 
+.feedback {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
 .btn-next {
   border: solid 1px black;
   border-radius: 25px;
