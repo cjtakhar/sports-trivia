@@ -22,7 +22,6 @@
   height: 25vh;
   color: purple;
 }
-
 .btn-play {
   border: solid 1px black;
   border-radius: 25px;
@@ -35,6 +34,11 @@
   color: white;
   width: 200px;
   text-decoration: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-play:hover {
+  box-shadow: 0 10px 15px rgba(0,0,0,0.3);
 }
 
 .play-link {
@@ -42,10 +46,6 @@
   color: white;
 }
 
-.btn-play:hover {
-  background-color: white;
-  color: black;
-}
 
 .question-container {
   display: flex;
