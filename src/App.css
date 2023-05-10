@@ -18,6 +18,35 @@
   align-items: center;
 }
 
+.title-card {
+  height: 25vh;
+  color: purple;
+}
+
+.btn-play {
+  border: solid 1px black;
+  border-radius: 25px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: block;
+  background-color: purple;
+  color: white;
+  width: 200px;
+  text-decoration: none;
+}
+
+.play-link {
+  text-decoration: none;
+  color: white;
+}
+
+.btn-play:hover {
+  background-color: white;
+  color: black;
+}
+
 .question-container {
   display: flex;
   flex-direction: column;
